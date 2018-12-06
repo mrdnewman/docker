@@ -39,7 +39,7 @@ $ docker pull jenkins
 Now, we'll tag our image name with a short name to "jenkins-image"
 $ docker tag jenkins jenkins-image
 
-Run container using this image, map data directory from the container to the host. 
+This will store Jenkins data in jenkins/ on your host. Run container using this image, map data directory from the container to the host. 
 Here we map /var/lib/jenkins from the container to jenkins/ directory from the current path on the host. 
 Jenkins port "8080" is also exposed to the host as "49001" ...
 
