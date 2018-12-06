@@ -115,3 +115,38 @@ $ docker exec <contName|jenkinsserv001> cat /var/jenkins_home/secrets/initialAdm
 IMPORTANT NOTE FOR DOCKER
 Have to setup Credentials for "DockerHub"
 
+
+
+-------------------------------------------------------------------------------------
+Good Basic Docker info
+http://engineering.hipolabs.com/understand-docker-without-losing-your-shit/
+http://karlcode.owtelse.com/blog/2017/01/25/push-a-docker-image-to-personal-repository/
+
+
+COMMIT CHANGES TO RUNNING CONTAINER:
+$ docker commit <containID> <containNAME>        / Creates Updated Image --> $ docker images
+
+
+LET'S PUSH UPDATED IMAGE:
+
+$ docker login
+<enter user name and password for Docker Hub Repository>
+
+$ docker tag first-image {docker-hub-username}/{default-repo-folder-name}:first-image
+
+$ docker push {docker-hub-username}/{default-repo-folder-name}:first-image
+
+Example: 
+docker tag jenkserv002 mrfoobar/hub-demo:jenkserv002
+docker push mrfoobar/hub-demo:jenkserv002
+
+
+
+
+
+
+
+
+
+
+
