@@ -56,6 +56,8 @@ Here, we're allocating host ports to container, and attaching host docker.sock a
 $ docker run --name jenkinsserv002 -p 8080:8080 -p 50000:50000 -d -u root \
 -v /var/run/docker.sock:/var/run/docker.sock -v jenkins_home:/var/jenkins_home jenkins/jenkins
 
+NOTE: "-u root" is pertinent per access to "Host docker.sock" ...
+
 ---------------------------------------
 <NOTE>
 AWS Security Group Setting ...
