@@ -1,8 +1,6 @@
 Ubuntu:
 Jenkins Docker Container
 -------------------------
-URL RES: https://linoxide.com/linux-how-to/install-jenkins-docker-container/
-
 
 $ apt-get update
 
