@@ -43,9 +43,8 @@ This will store Jenkins data in jenkins/ on your host. Run container using this 
 Here we map /var/lib/jenkins from the container to jenkins/ directory from the current path on the host. 
 Jenkins port "8080" is also exposed to the host as "49001" ...
 
-$ docker run --name jenkserv002 -p 8080:8080 -p 50000:50000 -d -u root /
-  -v /var/run/docker.sock:/var/run/docker.sock -v jenkins_home:/var/jenkins_home jenkins/jenkins
-
+$ docker run --name jenkinsserv002 -p 8080:8080 -p 50000:50000 -d -u root \
+-v /var/run/docker.sock:/var/run/docker.sock -v jenkins_home:/var/jenkins_home jenkins/jenkins
 
 AWS Security Group Setting ...
 Custom TCP Rule   TCP 	8080 	0.0.0.0/0 
