@@ -1,6 +1,6 @@
 Ubuntu:
-Jenkins Docker Container
--------------------------
+HOST INSTALL JENKINS DOCKER CONTAINER
+-------------------------------------
 
 $ apt-get update
 
@@ -39,32 +39,48 @@ $ docker pull jenkins
 Now, we'll tag our image name with a short name to "jenkins-image"
 $ docker tag jenkins jenkins-image
 
-This will store Jenkins data in jenkins/ on your host. Run container using this image, map data directory from the container to the host. 
-Here we map /var/lib/jenkins from the container to jenkins/ directory from the current path on the host. 
-Jenkins port "8080" is also exposed to the host as "49001" ...
+This will mount a persistent volume "jenkins_home" on your host while mapping to container data directory
+"/var/jenkins_home". Jenkin port 8080 is map host port 8080 likewise with port 50000.
+
+
+OPTIONAL READ ...
+--------------------------
+RUNING DOCKER IN DOCKER
+--------------------------
+URL RES: https://getintodevops.com/blog/the-simple-way-to-run-docker-in-docker-for-ci
+
+
+<CONTINUE>
+Here, we're allocating host ports to container, and attaching host docker.sock also to container.
 
 $ docker run --name jenkinsserv002 -p 8080:8080 -p 50000:50000 -d -u root \
 -v /var/run/docker.sock:/var/run/docker.sock -v jenkins_home:/var/jenkins_home jenkins/jenkins
 
+---------------------------------------
+<NOTE>
 AWS Security Group Setting ...
+---------------------------------------
 Custom TCP Rule   TCP 	8080 	0.0.0.0/0 
 Custom TCP Rule   TCP   8080   ::/0 
 
+Custom TCP Rule   TCP 	50000 	0.0.0.0/0 
+Custom TCP Rule   TCP   50000   ::/0 
 
-Let's Try Connecting ...
-$ http://<public_ip>:49001
-
+NOW GET ADMIN PASSWORD
+----------------------
+$ docker exec <contName> cat /var/jenkins_home/secrets/initialAdminPassword
+OR
 Login to Container -- Get Inital Password
-$ docker exec -it <container name or id> bash
+$ docker exec -it <containName> bash
 $ cd /var/jenkins_home/secrets
-$ cat initialAdminPassword
-  Cut and paste password to browser
+$ cat initialAdminPassword    // Cut and paste password to browser
 
-You know what to next ... 
+You know what to do next ... 
 
-
+<Optional>
+==========================
 UPGRADE DOCKER IMAGE ...
-
+==========================
 docker run --name jenkins-production \
            --detach \
            -p 50000:8080 \
@@ -72,57 +88,37 @@ docker run --name jenkins-production \
            jenkins/jenkins:2.73.3
 
 
-
---------------------------
-RUNING DOCKER IN DOCKER
---------------------------
-URL RES: https://getintodevops.com/blog/the-simple-way-to-run-docker-in-docker-for-ci
-
-
-MOUNT HOST'S MACHINES DOCKER SOCKET To CONTAINER
-------------------------------------------------
-
-docker run --name jenkinsserv001 -p 8080:8080 -p 50000:50000 -d -u root -v /var/run/docker.sock:/var/run/docker.sock -v jenkins_home:/var/jenkins_home jenkins/jenkins
-
 Login Container
 $ docker exec -it -u root <image_name/ContID> /bin/bash
 
 
 RUN PACKAGES NOW ...
 ---------------------------------------
-apt-get update && \
-apt-get -y install apt-transport-https \
-     ca-certificates \
-     curl \
-     gnupg2 \
-     software-properties-common && \
+apt-get update 
+apt-get -y install apt-transport-https ca-certificates curl gnupg2 software-properties-common
 curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg > /tmp/dkey; apt-key add /tmp/dkey && \
 add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
-   $(lsb_release -cs) \
-   stable" && \
-apt-get update && \
-apt-get -y install docker-ce
-
-
-
-NOW GET ADMIN PASSWORD
-----------------------
-$ docker exec <contName|jenkinsserv001> cat /var/jenkins_home/secrets/initialAdminPassword
-
+"deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
+$(lsb_release -cs) \
+stable" && apt-get update && apt-get -y install docker-ce
 
 IMPORTANT NOTE FOR DOCKER
 Have to setup Credentials for "DockerHub"
 
 
-
 -------------------------------------------------------------------------------------
-Good Basic Docker info
+
+<Optional Read>
+Docker info
 http://engineering.hipolabs.com/understand-docker-without-losing-your-shit/
 http://karlcode.owtelse.com/blog/2017/01/25/push-a-docker-image-to-personal-repository/
 
 
-COMMIT CHANGES TO RUNNING CONTAINER:
+Let's Try Connecting ...
+$ http://<public_ip>:8080
+
+
+IF HAPPY ... COMMIT CHANGES TO RUNNING CONTAINER:
 $ docker commit <containID> <containNAME>        / Creates Updated Image --> $ docker images
 
 
