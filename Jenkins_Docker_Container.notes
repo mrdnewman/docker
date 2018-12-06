@@ -140,6 +140,9 @@ Example:
 docker tag jenkserv002 mrfoobar/hub-demo:jenkserv002
 docker push mrfoobar/hub-demo:jenkserv002
 
+TEST PULLING IMAGE:
+-------------------
+docker pull mrfoobar/hub-demo:jenkserv002
 
 
 
