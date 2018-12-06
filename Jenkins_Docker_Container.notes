@@ -48,8 +48,8 @@ $ docker run --name jenkserv002 -p 8080:8080 -p 50000:50000 -d -u root /
 
 
 AWS Security Group Setting ...
-Custom TCP Rule   TCP 	49001 	0.0.0.0/0 
-Custom TCP Rule   TCP   49001   ::/0 
+Custom TCP Rule   TCP 	8080 	0.0.0.0/0 
+Custom TCP Rule   TCP   8080   ::/0 
 
 
 Let's Try Connecting ...
